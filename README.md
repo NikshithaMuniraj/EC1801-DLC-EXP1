@@ -1,4 +1,4 @@
-# EC1801-DLC-EXP1
+<img width="1920" height="1080" alt="Screenshot (10)" src="https://github.com/user-attachments/assets/6f472bee-bb34-4f39-a7c3-aa89c0bd717c" /># EC1801-DLC-EXP1
 ### EXPERIMENT 1 
 ### MINIMIZATION AND IMPLEMENTATION OF BOOLEAN FUNCTION
 ## Aim
@@ -20,10 +20,46 @@ exp1_boolean_min_tb.v	Verilog testbench
 exp1_boolean_min.vcd	VCD waveform dump generated during simulation
 
 ## Verilog Program
-
-
-
+```
+module fun (
+input wire A, 
+input wire B, 
+output wire F 
+); 
+assign F = (~A) | B ;    // F = A' + B 
+endmodule
+```
 ## TestBench Program
+```
+module tb;
+    reg A, B;
+    wire F;
+    // Instantiate the design under test (DUT)
+    fun uut (
+        .A(A),
+        .B(B),
+        .F(F)
+    );
+
+    initial begin
+        // ---- VCD dump setup ----
+        $dumpfile("fun.vcd");   // name of the VCD file to be generated
+        $dumpvars(0, tb);   // dump all signals in this testbench hierarchy
+
+        // ---- Apply all 4 input combinations ----
+        $monitor("Time=%0t A=%b B=%b | F=%b", $time, A, B, F);
+
+        A = 0; B = 0; #10;
+        A = 0; B = 1; #10;
+        A = 1; B = 0; #10;
+        A = 1; B = 1; #10;
+
+        #10 $finish;
+    end
+
+endmodule
+```
+
 
 
 
@@ -35,6 +71,7 @@ exp1_boolean_min.vcd	VCD waveform dump generated during simulation
 ## Truth Table
  
 <img width="795" height="311" alt="image" src="https://github.com/user-attachments/assets/dd4ba5b9-016b-4ae5-a693-f309c60c4c0e" />
+
 
 ## Simulation Procedure
 STEP 1 – Open Terminal
@@ -63,6 +100,8 @@ dve -full64 &
 A DVE environment will open.
 
 ## DVE Waveform Verification
+<img width="1920" height="1080" alt="Screenshot (10)" src="https://github.com/user-attachments/assets/32610cbe-5174-45fc-aab9-3b6a97f06044" />
+
 In DVE:
 1.	Open the testbench hierarchy.
 2.	Locate the signals:
